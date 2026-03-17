@@ -1,0 +1,28 @@
+name: zd-auth
+region: ams
+services:
+  - name: logto
+    dockerfile_path: Dockerfile
+    github:
+      repo: wullinkm/zd-auth
+      branch: main
+      deploy_on_push: true
+    envs:
+      - key: DB_URL
+        type: SECRET
+        scope: RUN_TIME
+      - key: ENDPOINT
+        value: "https://auth.zowerk.nl"
+        scope: RUN_TIME
+      - key: ADMIN_ENDPOINT
+        value: "https://auth.zowerk.nl"
+        scope: RUN_TIME
+      - key: NODE_TLS_REJECT_UNAUTHORIZED
+        value: "0"
+        scope: RUN_TIME
+    instance_size_slug: apps-s-1vcpu-1gb
+    instance_count: 1
+    http_port: 8080
+alerts:
+  - rule: DEPLOYMENT_FAILED
+  - rule: DOMAIN_FAILED
